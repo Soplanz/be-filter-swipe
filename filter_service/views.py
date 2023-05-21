@@ -49,6 +49,7 @@ def profile_list(request):
             and (not domisili or str(profile.get('domisili', None)) == domisili)\
             and (not hobi or any(str(data.get('hobi')) == hobi for data in profile.get('hobi', [])))\
             and profile['user']['username'] not in [data['username'] for data in friend]\
+            and int(profile['id']) != int(user_id)\
             and not Dislike.objects.filter(user_id=user_id, disliked_user_id=profile['id']).exists():
                 filtered_profiles.append(profile)
             
