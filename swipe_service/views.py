@@ -12,7 +12,6 @@ URL_PROFILE = 'http://localhost:8000/api/profile/'
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
-channel.queue_declare(queue='notifications')
 
 def send_notification(like):
     channel.basic_publish(
@@ -32,7 +31,7 @@ def send_notification_bidirectional(user_id, target_id):
         body=json.dumps({
             "user_id": f'{user_id}', 
             "target_id": f"{target_id}", 
-            "message": f"You and {target_id} have liked each other!", 
+            "message": f"{user_id} and {target_id} have liked each other!", 
             "match": True})
     )
 

@@ -2,7 +2,6 @@ import pika
 import json
 
 import requests
-import websockets
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
