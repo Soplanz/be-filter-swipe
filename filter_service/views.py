@@ -50,7 +50,7 @@ def profile_list(request):
             and (not hobi or any(str(data.get('hobi')) == hobi for data in profile.get('hobi', [])))\
             and profile['user']['username'] not in [data['username'] for data in friend]\
             and not Dislike.objects.filter(user_id=user_id, disliked_user_id=profile['id']).exists():
-                filtered_profile.append(profile)
+                filtered_profiles.append(profile)
             
         return Response(filtered_profiles, content_type='application/json')
     else:
