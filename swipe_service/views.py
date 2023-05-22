@@ -7,8 +7,8 @@ from .serializers import LikeSerializer, DislikeSerializer
 from django.db.models import Q
 import requests, json
 
-URL_VERIFY = 'http://localhost:3000/auth/profile'
-URL_PROFILE = 'http://localhost:8000/api/profile/'
+URL_VERIFY = 'http://34.70.123.231:3001/auth/profile'
+URL_PROFILE = 'http://34.70.123.231/api/profile/'
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
@@ -142,8 +142,6 @@ def get_likes(request):
         user_id         = response_data['id']
         likes_data      = Like.objects.filter(Q(user_id=user_id))
         serialized_data = LikeSerializer(likes_data, many=True).data
-
-        print(serialized_data)
         return Response(serialized_data, content_type='application/json')
     else:
         return Response({'error': f'An error occured with code {check_valid.status_code}'}, status=check_valid.status_code)

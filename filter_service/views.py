@@ -8,7 +8,7 @@ from django.db.models import Q
 import requests
 import json
 
-IP_ADDRESS_PROFILE = 'localhost:8000'
+IP_ADDRESS_PROFILE = '34.70.123.231'
 endpoint_url = f'http://{IP_ADDRESS_PROFILE}/api/profile/'
 
 
