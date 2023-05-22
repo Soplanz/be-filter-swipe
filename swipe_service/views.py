@@ -107,3 +107,43 @@ def dislike(request, target_id):
         return Response(serialized_data, content_type='application/json')
     else:
         return Response({'error': f'An error occured with code {check_valid.status_code}'}, status=check_valid.status_code)
+
+
+@api_view(['GET'])
+def get_dislikes(request):
+    token = request.META.get('HTTP_AUTHORIZATION')
+    if not token:
+        return Response({'error': f'Authentication failed token not found'}, status=401)
+    
+    headers = {'Authorization': token}
+    check_valid = requests.get(URL_VERIFY, headers=headers)
+
+    if check_valid.status_code == 200:
+        response_data   = requests.get(URL_PROFILE + "get_my_profile/", headers=headers).json()
+        user_id         = response_data['id']
+        dislikes_data   = Dislike.objects.filter(Q(user_id=user_id))
+        serialized_data = DislikeSerializer(dislikes_data, many=True).data
+        return Response(serialized_data, content_type='application/json')
+    else:
+        return Response({'error': f'An error occured with code {check_valid.status_code}'}, status=check_valid.status_code)
+
+
+@api_view(['GET'])
+def get_likes(request):
+    token = request.META.get('HTTP_AUTHORIZATION')
+    if not token:
+        return Response({'error': f'Authentication failed token not found'}, status=401)
+    
+    headers = {'Authorization': token}
+    check_valid = requests.get(URL_VERIFY, headers=headers)
+
+    if check_valid.status_code == 200:
+        response_data   = requests.get(URL_PROFILE + "get_my_profile/", headers=headers).json()
+        user_id         = response_data['id']
+        likes_data      = Like.objects.filter(Q(user_id=user_id))
+        serialized_data = LikeSerializer(likes_data, many=True).data
+
+        print(serialized_data)
+        return Response(serialized_data, content_type='application/json')
+    else:
+        return Response({'error': f'An error occured with code {check_valid.status_code}'}, status=check_valid.status_code)
