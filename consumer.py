@@ -3,7 +3,7 @@ import json
 
 import requests
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost', heartbeat=600))
 channel = connection.channel()
 channel.queue_declare(queue='notifications')
 

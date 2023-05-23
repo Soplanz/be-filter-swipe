@@ -10,7 +10,7 @@ import requests, json
 URL_VERIFY = 'http://34.70.123.231:3001/auth/profile'
 URL_PROFILE = 'http://34.70.123.231/api/profile/'
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
+connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost', heartbeat=600))
 channel = connection.channel()
 
 def send_notification(like):
