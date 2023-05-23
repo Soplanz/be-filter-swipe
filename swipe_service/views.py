@@ -63,6 +63,13 @@ def like(request, target_id):
             message=f"You have a new like from {user_id}."
         )
         send_notification(like) 
+        
+        chatroom_data = {
+            "agent_username": f"{user_data['user']['username']}", 
+            "agent_id": f"{target_id}"
+        }
+        requests.post('http://35.223.12.163:3000/api/chat/create', 
+            headers=headers, data=chatroom_data)
 
         # Assume that user id is always same as the request user id
         if Like.objects.filter(Q(user_id=target_id) & Q(liked_user_id=user_id)).exists():
