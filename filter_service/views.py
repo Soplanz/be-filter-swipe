@@ -2,7 +2,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from swipe_service.models import Dislike
+from swipe_service.models import Dislike, Like
 from django.db.models import Q
 
 import requests
@@ -50,7 +50,8 @@ def profile_list(request):
             and (not hobi or any(str(data.get('hobi')) == hobi for data in profile.get('hobi', [])))\
             and profile['user']['username'] not in [data['username'] for data in friend]\
             and int(profile['id']) != int(user_id)\
-            and not Dislike.objects.filter(user_id=user_id, disliked_user_id=profile['id']).exists():
+            and not Dislike.objects.filter(user_id=user_id, disliked_user_id=profile['id']).exists()\
+            and not Like.objects.filter(user_id=user_id, liked_user_id=profile['id']).exists():
                 filtered_profiles.append(profile)
             
         return Response(filtered_profiles, content_type='application/json')
